@@ -1,0 +1,310 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>三店提案批註</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --bg:#e9edeb; --card:#ffffff; --head:#e4ede8; --rank:#dfe9e3;
+  --ink:#1f2a26; --muted:#6f7b76; --line:#d9dfdc; --row:#e6ebe8;
+  --green:#2f6b4f; --green-soft:#e6f2ec; --green-line:#bcd9c9;
+  --red-soft:#fbe9e6; --red:#b0412e; --blue-soft:#e8eef8; --blue:#2c4a7a;
+  --orange:#c2570a; --orange-bg:#fff4ea; --orange-line:#f0a56b;
+  --sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --mono:"IBM Plex Mono","SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto;padding:28px 20px 60px}
+h1{font-size:20px;margin:0 0 6px;font-weight:700}
+.legend{display:flex;flex-wrap:wrap;gap:14px;align-items:center;color:var(--muted);font-size:13px;margin-bottom:22px}
+.legend .o{color:var(--orange);font-weight:500}
+.legend .k{display:inline-block;padding:1px 8px;border:1px solid var(--orange-line);background:var(--orange-bg);color:var(--orange);border-radius:3px}
+.legend s{color:var(--muted)}
+
+.shop{background:var(--bg);border:1px solid var(--line);margin:0 0 34px;padding:0 0 14px}
+.head{display:grid;grid-template-columns:64px 1fr 150px;background:var(--head);border-bottom:1px solid var(--line)}
+.rank{background:var(--rank);color:var(--green);font-weight:700;display:flex;align-items:center;justify-content:center;font-size:16px}
+.meta{background:#fff;padding:18px 22px 16px}
+.meta h2{margin:0 0 6px;font-size:19px;font-weight:700}
+.meta h2 .dist{font-weight:400;color:var(--muted);font-size:15px;margin-left:10px}
+.meta .desc{margin:0 0 12px;font-size:15.5px;line-height:1.65}
+.chips{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.chip{font-size:13px;padding:3px 9px;border-radius:3px;border:1px solid transparent}
+.chip.g{background:var(--green-soft);color:var(--green);border-color:var(--green-line)}
+.chip.r{background:var(--red-soft);color:var(--red);border-color:#f0c9c2}
+.chip.b{background:var(--blue-soft);color:var(--blue);border-color:#c7d4e8}
+.chip.n{background:#ececec;color:#333;border-color:#dcdcdc}
+.chip.t{background:#fff;color:#666;border-color:#ddd}
+.score{background:#fff;border-left:1px solid var(--line);padding:22px 14px;text-align:center}
+.score .num{font-family:var(--mono);color:var(--green);font-size:26px;font-weight:500}
+.score .bar{height:4px;background:#dfe5e2;margin:6px 10px 0;border-radius:2px;overflow:hidden}
+.score .bar i{display:block;height:100%;background:var(--green)}
+
+.opening{background:#fff;border-left:4px solid var(--green);margin:14px 18px 0;padding:12px 16px;display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline}
+.opening .lbl{color:var(--green);font-size:12px;letter-spacing:.06em;font-weight:500}
+.opening .txt{font-size:16px;font-weight:500;flex:1 1 60%}
+
+.info{padding:12px 18px 0;display:grid;grid-template-columns:1fr 2fr 1fr;gap:16px}
+.info.one{grid-template-columns:1fr}
+.info .lbl{display:block;color:var(--muted);font-size:12.5px;margin-bottom:2px}
+.info .val{font-size:15.5px}
+.info .val.mono{font-family:var(--mono);color:var(--green);text-decoration:underline;text-underline-offset:3px}
+.info ul{margin:2px 0 0;padding-left:20px}
+.info li{font-size:15px}
+.ptitle{padding:16px 18px 6px;color:var(--muted);font-size:13.5px;letter-spacing:.08em}
+
+.block{background:#fff;border:1px solid var(--line);margin:8px 18px;padding:14px 20px 8px}
+.block h3{margin:0 0 6px;font-size:16px;font-weight:700}
+.block h3 small{font-weight:400;color:var(--muted);font-size:14px;margin-left:8px}
+.pp{margin:2px 0;font-size:14.5px;color:var(--muted)}
+.pp b{color:var(--ink);font-weight:700}
+.row{display:grid;grid-template-columns:1fr 110px 190px 150px;gap:12px;align-items:baseline;border-top:1px solid var(--row);padding:11px 0 9px;margin-top:6px}
+.row:first-of-type{margin-top:8px}
+.row .name{font-size:15.5px}
+.row .name small{color:var(--muted);font-size:14px;margin-left:6px}
+.row .size,.row .price{font-family:var(--mono);color:var(--muted);font-size:14px}
+.row .map{color:var(--muted);font-size:14px}
+.row .price{text-align:right;color:var(--ink);font-size:15px}
+.row .price small{font-family:var(--sans);color:var(--muted);font-size:13px;margin-left:6px}
+
+/* ---- our input (orange) ---- */
+.note{color:var(--orange);font-size:13.5px;line-height:1.5}
+.note::before{content:"▸ ";font-weight:700}
+.pp .note,.opening .note,.score .note,.info .note,.ptitle .note,.block h3 .note{display:inline;margin-left:8px}
+.score .note{display:block;margin:10px 0 0;text-align:left;font-size:12.5px}
+.opening .note{flex:1 1 100%;margin:4px 0 0}
+.rnote{grid-column:1/-1;color:var(--orange);font-size:13.5px;line-height:1.5;margin-top:2px}
+.rnote::before{content:"▸ ";font-weight:700}
+.del .name,.del .size,.del .map,.del .price,.pp.del b,.pp.del span.o{text-decoration:line-through;text-decoration-color:var(--orange);opacity:.6}
+.pp.del{color:var(--muted)}
+.row.add{background:var(--orange-bg);border-top:1px solid var(--orange-line);border-left:3px solid var(--orange);padding-left:10px;margin-left:-13px}
+.row.add .name{color:var(--orange);font-weight:500}
+.row.add .name::before{content:"＋ "}
+.row.add .map,.row.add .size,.row.add .price{color:var(--orange)}
+.pp.add{color:var(--orange)}
+.pp.add::before{content:"＋ "}
+.pp.add b{color:var(--orange)}
+.row.sec .name::after{content:"　次要 · 維護";color:var(--orange);font-size:12.5px;font-weight:500}
+.row.sec .name,.row.sec .size,.row.sec .map,.row.sec .price{opacity:.75}
+.row.sec2 .name::after{content:"　次要";color:var(--orange);font-size:12.5px;font-weight:500}
+.infobox{margin:12px 18px 0;background:var(--orange-bg);border:1px solid var(--orange-line);border-left:4px solid var(--orange);padding:10px 14px;color:var(--orange);font-size:13.5px}
+.infobox b{font-weight:700}
+
+.rules{background:#fff;border:1px solid var(--line);padding:16px 22px 10px;margin-top:8px}
+.rules h2{font-size:15px;margin:0 0 8px}
+.rules ol{margin:0;padding-left:22px;column-count:2;column-gap:32px;font-size:13.5px;color:#3a4541}
+.rules li{break-inside:avoid;margin-bottom:6px}
+.rules .src{color:var(--muted);font-size:12.5px;margin-top:8px}
+
+@media (max-width:760px){
+  .head{grid-template-columns:44px 1fr}
+  .score{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);text-align:left;padding:12px 18px}
+  .info{grid-template-columns:1fr}
+  .row{grid-template-columns:1fr 1fr}
+  .row .name{grid-column:1/-1}
+  .row .price{text-align:left}
+  .rules ol{column-count:1}
+}
+
+/* inline diff */
+.x{text-decoration:line-through;text-decoration-color:var(--orange);color:var(--muted);opacity:.7}
+.r{color:var(--orange);font-weight:500}
+.why{color:var(--orange);font-size:12.5px;font-weight:400}
+.sw{display:inline-block;vertical-align:top;line-height:1.05;text-align:center;margin:0 2px}
+.sw s{text-decoration-color:var(--orange);color:var(--muted)}
+.sw i{display:block;font-style:normal;color:var(--orange);font-size:12px;font-weight:600;letter-spacing:.02em}
+.row .name .r{font-weight:500}
+.sub{grid-column:1/-1;color:var(--orange);font-size:12px;line-height:1.45;margin-top:2px;padding-left:14px;opacity:.9}
+.sub.nested{padding-left:28px}
+</style>
+
+<div class="wrap">
+  <h1>三店提案批註</h1>
+  <p style="margin:0 0 18px;color:#3a4541;font-size:14px">說明為何更改產生器的產品選擇。原文照搬，只在有更改的字詞上劃線並以橙字標出改法與理由。</p>
+
+  <!-- ===================== 1 AMOUR ===================== -->
+  <article class="shop">
+    <header class="head">
+      <div class="rank">1</div>
+      <div class="meta">
+        <h2>AMOUR Aesthetic <span class="dist">尖沙咀</span></h2>
+        <p class="desc">尖沙咀單店，資料顯示有 Thermage 熱瑪吉、Ultherapy 超聲刀、HIFU、PicoWay 皮秒、Lumenis M22 彩光及 Geneo，現用 Guinot 及 Sothys 兩條歐系院線，是 Ceutisome 換線的直接對象；儀器清單對單店而言偏多，上門時宜核實。</p>
+        <div class="chips">
+          <span class="chip r">競品替換</span><span class="chip g">術後導入</span><span class="chip n">醫美</span>
+          <span class="chip t">體雕 · 緊緻 · 水飛梭 · 激光/彩光</span><span class="chip t">現用 Guinot、Sothys</span>
+        </div>
+      </div>
+      <div class="score"><div class="num">90.0</div><div class="bar"><i style="width:90%"></i></div></div>
+    </header>
+
+    <div class="opening"><span class="lbl">開場建議</span><span class="txt">先帶 Ceutisome W 抗皺<span class="x">安瓶</span><span class="r">Shot</span> 做 Thermage／HIFU <span class="x">術後修護</span><span class="r">療程中即時加強效果</span>示範，配 P 美白<span class="x">安瓶</span><span class="r">Shot</span> 接 PicoWay／M22 術後，再談 1L 潔面／爽膚水耗材。<span class="why">（Fusion Shot 屬療程中即時加強效果，不是術後修護）</span></span></div>
+
+    <div class="info">
+      <div><span class="lbl">電話</span><span class="val mono">+852 9668 0649</span></div>
+      <div><span class="lbl">地址</span><span class="val">香港九龍尖沙咀彌敦道132號美麗華廣場A座9樓901-03, 18室</span></div>
+      <div><span class="lbl">通路／價位</span><span class="val">院線價層沙龍 · 中價位</span></div>
+    </div>
+    <div class="info one"><div><span class="lbl">店內設備</span><span class="val">Emsculpt 體雕、Exilis 射頻、Geneo、HIFU、M22 彩光、Onda 微波、PicoWay 皮秒、Thermage 熱瑪吉、Ultherapy 超聲刀、Ultraformer</span></div></div>
+    <div class="info one"><div><span class="lbl">現用品牌 → 我們的切入角度</span>
+      <span class="val">Guinot： 歐系院線 → Ceutisome 院線替代<br>Sothys： 歐系院線 → Ceutisome 院線替代</span></div></div>
+
+    <div class="ptitle">建議提案 · 7 品項 <span class="r">→ 10 品項（含 1 次要）</span></div>
+
+
+    <section class="block">
+      <h3>院內療程主打 <small>用在客人臉上的安瓶／精華，跟著店內療程走</small></h3>
+      <p class="pp"><b>抗老緊緻</b> — 店內有 HIFU、射頻電波、<span class="x">針劑類療程</span> <span class="why">← Shot 可能刺激針劑後的皮膚，先修護。</span></p>
+      <p class="pp"><b>色斑暗沉</b> — 店內有 皮秒／激光、彩光、美白護理</p>
+      <div class="row"><span class="name">Ceutisome Wrinkle Effect <span class="sw"><s>Ampoule</s><i>Shot</i></span> (W <span class="sw"><s>Ampoule</s><i>Shot</i></span>)<small>抗皺<span class="x">安瓶</span><span class="r">Shot</span> W</small></span><span class="size">5ml*8ea</span><span class="map">對應 抗老緊緻</span><span class="price">$90.00<small>院線價</small></span>
+        <div class="rnote">安瓶需配 Booster 才是 Shot，單賣安瓶可能無法使用。</div></div>
+      <div class="row"><span class="name">Ceutisome Hyper Pigment <span class="sw"><s>Ampoule</s><i>Shot</i></span> (P <span class="sw"><s>Ampoule</s><i>Shot</i></span>)<small>淡斑<span class="x">安瓶</span><span class="r">Shot</span> P</small></span><span class="size">5ml*8ea</span><span class="map">對應 色斑暗沉</span><span class="price">$90.00<small>院線價</small></span></div>
+    </section>
+
+    <section class="block">
+      <h3>療程基礎耗材 <small>1L 潔面／爽膚水，每間做面部的店都用得上</small></h3>
+      <div class="row"><span class="name">Gentle Facial Cleansing Lotion<small>溫和潔面乳</small></span><span class="size">1L</span><span class="map"></span><span class="price">$37.80<small>院線價</small></span></div>
+      <div class="row"><span class="name">Toning Gel<small>爽膚凝膠</small></span><span class="size">1L</span><span class="map"></span><span class="price">$43.20<small>院線價</small></span></div>
+    </section>
+
+    <section class="block">
+      <h3>療程後帶回家 <small>同一批客人的居家延續，跟主打療程配對</small></h3>
+      <p class="pp"><b>抗老緊緻</b> — 店內有 HIFU、射頻電波</p>
+      <p class="pp"><b>色斑暗沉</b> — 店內有 皮秒／激光、彩光</p>
+      <p class="pp"><b>泛紅敏感</b> — 店內有 皮秒／激光、彩光</p>
+      <div class="row"><span class="name">ReGenon Serum</span><span class="size">50ml</span><span class="map">對應 抗老緊緻</span><span class="price">$40.00<small>院線價</small></span>
+        <div class="rnote">ReGenon Starter Kit（多款不同產品的小容量組合）會不會是更好的方案？客人會覺得像一套完整 routine，而且小容量像試用裝，可能更願意嘗試。</div></div>
+      <div class="row sec"><span class="name">Serum 12</span><span class="size">30ml</span><span class="map">對應 色斑暗沉</span><span class="price">$30.00<small>院線價</small></span>
+        <div class="rnote">Serum 12 易被替代，且術後數天內不宜使用（維他命 C 會刺激剛做完療程的皮膚）。</div></div>
+      <div class="row"><span class="name">D:O2 Activator</span><span class="size">50ml</span><span class="map">對應 泛紅敏感</span><span class="price"></span>
+        <div class="rnote">替代方案：</div>
+        <div class="sub">1. Sukalming Derma Kit（cream＋serum 小容量，適用於 皮秒、電波、注射、換膚）</div>
+        <div class="sub">2. PP Cream（修護膏質地，適用於 電波、水飛梭、微針、注射）。</div>
+        <div class="sub nested">2.1 SOS PP Kit（Toning Gel、PP Cream、Moisture Aqua Serum 三支小容量）：官網定位 post-procedure recovery set；客人會覺得像一套完整 routine，小容量像試用裝，可能更願意嘗試。</div></div>
+      <div class="rnote">可加 Ceutisome PP Mask：皮秒／激光；BH Mask：電波、水飛梭；AG Mask：電波。</div>
+    </section>
+  </article>
+
+  <!-- ===================== 3 LM ===================== -->
+  <article class="shop">
+    <header class="head">
+      <div class="rank">3</div>
+      <div class="meta">
+        <h2>LM SKINCENTRE- 皮膚及醫學美容中心/ 灣仔 <span class="dist">灣仔</span></h2>
+        <p class="desc">灣仔皮膚科主導的醫學美容中心，有 Thermage 熱瑪吉、Ultherapy 超聲刀、PicoSure 皮秒及 HydraFacial 水飛梭，現用 Obagi clinical 線，屬批發價核心客，Ceutisome 可直接切入術後修護。</p>
+        <div class="chips">
+          <span class="chip r">競品替換</span><span class="chip g">術後導入</span><span class="chip n">醫美</span>
+          <span class="chip t">體雕 · 緊緻 · 水飛梭 · 激光/彩光</span><span class="chip t">現用 Obagi</span>
+        </div>
+      </div>
+      <div class="score"><div class="num">78.0</div><div class="bar"><i style="width:78%"></i></div></div>
+    </header>
+
+    <div class="opening"><span class="lbl">開場建議</span><span class="txt">先帶 Ceutisome W 抗皺<span class="x">安瓶</span><span class="r">Shot</span> 配 Thermage／Ultherapy <span class="x">術後</span><span class="r">療程中即時加強效果</span>示範，再以 H 保濕<span class="x">安瓶</span><span class="r">Shot</span> 接 HydraFacial 療程，順帶 1L 潔面／爽膚水耗材。</span></div>
+
+    <div class="info">
+      <div><span class="lbl">電話</span><span class="val mono">+852 3108 9779</span></div>
+      <div><span class="lbl">地址</span><span class="val">22/F, 88 Gloucester Rd, Wan Chai, Hong Kong Island, 香港</span></div>
+      <div><span class="lbl">通路／價位</span><span class="val">經銷價層帳戶 · 價位未知</span></div>
+    </div>
+    <div class="info one"><div><span class="lbl">店內設備</span><span class="val">CoolSculpting 冷凍溶脂、Emsculpt 體雕、Exilis 射頻、HydraFacial 水飛梭、PicoSure 皮秒、Thermage 熱瑪吉、Ultherapy 超聲刀、Ultraformer</span></div></div>
+    <div class="info one"><div><span class="lbl">現用品牌 → 我們的切入角度</span>
+      <span class="val">Obagi： clinical 定位 → Ceutisome <span class="x">替代</span><span class="r">補位</span> <span class="why">（Obagi 是長期 actives，術後初期本就停用，Ceutisome 補 0–7 日修護）</span></span></div></div>
+
+    <div class="ptitle">建議提案 · 8 品項 <span class="r">→ 12 品項（含 2 次要）</span></div>
+
+    <section class="block">
+      <h3>院內療程主打 <small>用在客人臉上的安瓶／精華，跟著店內療程走</small></h3>
+      <p class="pp"><b>抗老緊緻</b> — 店內有 射頻電波、<span class="x">微針、針劑類療程</span> <span class="why">← Shot 可能刺激微針／針劑後的皮膚，先修護。</span></p>
+      <p class="pp"><b>色斑暗沉</b> — 店內有 皮秒／激光、美白護理、PicoSure 皮秒</p>
+      <p class="pp"><b>乾燥缺水</b> — 店內有 <span class="x">微針</span><span class="why">（← Shot 可能刺激微針後的皮膚，先修護）</span>、保濕護理、HydraFacial 水飛梭</p>
+      <div class="row"><span class="name">Ceutisome Wrinkle Effect <span class="sw"><s>Ampoule</s><i>Shot</i></span> (W <span class="sw"><s>Ampoule</s><i>Shot</i></span>)<small>抗皺<span class="x">安瓶</span><span class="r">Shot</span> W</small></span><span class="size">5ml*8ea</span><span class="map">對應 抗老緊緻</span><span class="price"><span class="x">$45.00</span> <span class="r">US$90.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span><span class="why">（或可用 SPA 價代替經銷價）</span></small></span></div>
+      <div class="row"><span class="name">Ceutisome Hyper Pigment <span class="sw"><s>Ampoule</s><i>Shot</i></span> (P <span class="sw"><s>Ampoule</s><i>Shot</i></span>)<small>淡斑<span class="x">安瓶</span><span class="r">Shot</span> P</small></span><span class="size">5ml*8ea</span><span class="map">對應 色斑暗沉</span><span class="price"><span class="x">$45.00</span> <span class="r">US$90.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span></div>
+      <div class="row"><span class="name">Ceutisome Hydrating <span class="sw"><s>Ampoule</s><i>Shot</i></span> (H <span class="sw"><s>Ampoule</s><i>Shot</i></span>)<small>保濕<span class="x">安瓶</span><span class="r">Shot</span> H</small></span><span class="size">5ml*8ea</span><span class="map">對應 乾燥缺水</span><span class="price"><span class="x">$45.00</span> <span class="r">US$90.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span></div>
+    </section>
+
+    <section class="block">
+      <h3>療程基礎耗材 <small>1L 潔面／爽膚水，每間做面部的店都用得上</small></h3>
+      <div class="row"><span class="name">Gentle Facial Cleansing Lotion<small>溫和潔面乳</small></span><span class="size">1L</span><span class="map"></span><span class="price"><span class="x">$18.90</span> <span class="r">US$37.80</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span></div>
+      <div class="row"><span class="name">Toning Gel<small>爽膚凝膠</small></span><span class="size">1L</span><span class="map"></span><span class="price"><span class="x">$21.60</span> <span class="r">US$43.20</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span></div>
+    </section>
+
+    <section class="block">
+      <h3>療程後帶回家 <small>同一批客人的居家延續，跟主打療程配對</small></h3>
+      <p class="pp"><b>抗老緊緻</b> — 店內有 射頻電波、微針</p>
+      <p class="pp"><b>色斑暗沉</b> — 店內有 皮秒／激光、美白護理</p>
+      <p class="pp"><b>乾燥缺水</b> — 店內有 微針、保濕護理</p>
+      <p class="pp add"><b>泛紅敏感</b>（Sukalming Derma Kit，術後泛紅／反黑）</p>
+      <div class="row"><span class="name">ReGenon Serum</span><span class="size">50ml</span><span class="map">對應 抗老緊緻</span><span class="price"><span class="x">$25.00</span> <span class="r">US$40.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span>
+        <div class="rnote">ReGenon Starter Kit（多款不同產品的小容量組合）會不會是更好的方案？客人會覺得像一套完整 routine，而且小容量像試用裝，可能更願意嘗試。</div></div>
+      <div class="row sec"><span class="name">Serum 12</span><span class="size">30ml</span><span class="map">對應 色斑暗沉</span><span class="price"><span class="x">$15.00</span> <span class="r">US$30.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span>
+        <div class="rnote">Serum 12 易被替代，且術後數天內不宜使用（維他命 C 會刺激剛做完療程的皮膚）。</div></div>
+      <div class="row sec"><span class="name">Moisture Aqua Serum<small>保濕精華</small></span><span class="size">50ml</span><span class="map">對應 乾燥缺水</span><span class="price"><span class="x">$18.00</span> <span class="r">US$36.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span>
+        <div class="rnote">Moisture Aqua Serum 易被替代（Obagi 也有）。替代建議：PP Cream 適用於 電波、水飛梭、微針、注射。</div>
+        <div class="sub">SOS PP Kit（Toning Gel、PP Cream、Moisture Aqua Serum 三支小容量）：官網定位 post-procedure recovery set；客人會覺得像一套完整 routine，小容量像試用裝，可能更願意嘗試。</div></div>
+      <div class="row add"><span class="name">Sukalming Derma Kit<small>cream ＋ serum 小容量</small></span><span class="size"></span><span class="map">對應 泛紅敏感</span><span class="price"></span>
+        <div class="rnote">Sukalming Derma Kit 適用於 皮秒、電波、注射、換膚。</div></div>
+      <div class="rnote">可加 Ceutisome PP Mask：皮秒／激光；BH Mask：電波、水飛梭；AG Mask：電波。</div>
+    </section>
+  </article>
+
+  <!-- ===================== 7 BEAUSKIN ===================== -->
+  <article class="shop">
+    <header class="head">
+      <div class="rank">7</div>
+      <div class="meta">
+        <h2>BEAUSKIN Medical 醫學美容中心 <span class="dist">九龍灣 · 旺角 · 沙田 · 荃灣 · 銅鑼灣</span></h2>
+        <p class="desc">五間分店共用一條熱線的醫學美容集團，設備最齊：Thermage 熱瑪吉、Ultherapy 超聲刀、HIFU、PicoWay 皮秒、Fotona 激光、Sylfirm X 微針射頻及 M22 彩光，資料上未見現用專業品牌，屬空白市場；一次談成可鋪五個點。</p>
+        <div class="chips">
+          <span class="chip g">術後導入</span><span class="chip b">連鎖 x5</span><span class="chip n">醫美</span>
+          <span class="chip t">激光/彩光 · 體雕 · 緊緻 · 微針射頻</span>
+        </div>
+      </div>
+      <div class="score"><div class="num">76.0</div><div class="bar"><i style="width:76%"></i></div></div>
+    </header>
+
+    <div class="opening"><span class="lbl">開場建議</span><span class="txt">先帶 Ceutisome W 抗皺<span class="x">安瓶</span><span class="r">Shot</span> 做 <span class="x">Sylfirm X／</span>Thermage <span class="x">術後修護</span><span class="r">療程中即時加強效果</span>示範，配 <span class="x">D:O2 Activator</span><span class="r">Sukalming Derma Kit</span> 做激光後退紅零售，再談五店 1L 潔面／爽膚水耗材。</span></div>
+
+    <div class="info">
+      <div><span class="lbl">電話</span><span class="val mono">+852 3188 5638</span></div>
+      <div><span class="lbl">地址</span><span class="val">香港香港島銅鑼灣告士打道280號世界貿易中心3001-3003, 30/F</span></div>
+      <div><span class="lbl">通路／價位</span><span class="val">經銷價層帳戶 · 中價位</span></div>
+    </div>
+    <div class="info one"><div><span class="lbl">店內設備</span><span class="val">Candela 激光、CoolSculpting 冷凍溶脂、Emsculpt 體雕、Exilis 射頻、Fotona 激光、GentleLase 激光、HIFU、M22 彩光、PicoWay 皮秒、Sylfirm X 微針射頻、Thermage 熱瑪吉、Ultherapy 超聲刀</span></div></div>
+    <div class="info one"><div><span class="lbl">分店（5）</span>
+      <ul><li>BEAUSKIN Medical 醫學美容中心 · 銅鑼灣 · +852 3188 5638</li><li>BEAUSKIN Medical 醫學美容中心 · 旺角 · +852 3188 5638</li><li>BEAUSKIN Medical 醫學美容中心 · 沙田 · +852 3188 5638</li><li>BEAUSKIN Medical 醫學美容中心 · 荃灣 · +852 3188 5638</li><li>BEAUSKIN Medical 醫學美容中心 · 九龍灣 · +852 3188 5638</li></ul></div></div>
+
+    <div class="ptitle">建議提案 · 7 品項 <span class="r">→ 10 品項（含 1 次要）</span></div>
+
+    <section class="block">
+      <h3>院內療程主打 <small>用在客人臉上的安瓶／精華，跟著店內療程走</small></h3>
+      <p class="pp"><b>抗老緊緻</b> — 店內有 HIFU、射頻電波、<span class="x">微針</span> <span class="why">← Shot 可能刺激微針後的皮膚，先修護。</span></p>
+      <p class="pp"><b>色斑暗沉</b> — 店內有 皮秒／激光、美白護理、PicoWay 皮秒</p>
+      <div class="row"><span class="name">Ceutisome Wrinkle Effect <span class="sw"><s>Ampoule</s><i>Shot</i></span> (W <span class="sw"><s>Ampoule</s><i>Shot</i></span>)<small>抗皺<span class="x">安瓶</span><span class="r">Shot</span> W</small></span><span class="size">5ml*8ea</span><span class="map">對應 抗老緊緻</span><span class="price"><span class="x">$45.00</span> <span class="r">US$90.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span><span class="why">（或可用 SPA 價代替經銷價）</span></small></span></div>
+      <div class="row"><span class="name">Ceutisome Hyper Pigment <span class="sw"><s>Ampoule</s><i>Shot</i></span> (P <span class="sw"><s>Ampoule</s><i>Shot</i></span>)<small>淡斑<span class="x">安瓶</span><span class="r">Shot</span> P</small></span><span class="size">5ml*8ea</span><span class="map">對應 色斑暗沉</span><span class="price"><span class="x">$45.00</span> <span class="r">US$90.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span></div>
+    </section>
+
+    <section class="block">
+      <h3>療程基礎耗材 <small>1L 潔面／爽膚水，每間做面部的店都用得上</small></h3>
+      <div class="row"><span class="name">Gentle Facial Cleansing Lotion<small>溫和潔面乳</small></span><span class="size">1L</span><span class="map"></span><span class="price"><span class="x">$18.90</span> <span class="r">US$37.80</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span></div>
+      <div class="row"><span class="name">Toning Gel<small>爽膚凝膠</small></span><span class="size">1L</span><span class="map"></span><span class="price"><span class="x">$21.60</span> <span class="r">US$43.20</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span></div>
+    </section>
+
+    <section class="block">
+      <h3>療程後帶回家 <small>同一批客人的居家延續，跟主打療程配對</small></h3>
+      <p class="pp"><b>抗老緊緻</b> — 店內有 HIFU、射頻電波</p>
+      <p class="pp"><b>泛紅敏感</b> — 店內有 皮秒／激光、敏感肌護理</p>
+      <p class="pp"><b>色斑暗沉</b> — 店內有 皮秒／激光、美白護理</p>
+      <div class="row"><span class="name">ReGenon Serum</span><span class="size">50ml</span><span class="map">對應 抗老緊緻</span><span class="price"><span class="x">$25.00</span> <span class="r">US$40.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span>
+        <div class="rnote">ReGenon Starter Kit（多款不同產品的小容量組合）會不會是更好的方案？客人會覺得像一套完整 routine，而且小容量像試用裝，可能更願意嘗試。</div></div>
+      <div class="row"><span class="name">D:O2 Activator</span><span class="size">50ml</span><span class="map">對應 泛紅敏感</span><span class="price"><span class="x">$22.00</span> <span class="r">US$36.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span>
+        <div class="rnote">替代方案：</div>
+        <div class="sub">1. Sukalming Derma Kit（cream＋serum 小容量，適用於 皮秒、電波、注射、換膚）</div>
+        <div class="sub">2. PP Cream（修護膏質地，適用於 電波、水飛梭、微針、注射），次要。</div>
+        <div class="sub nested">2.1 SOS PP Kit（Toning Gel、PP Cream、Moisture Aqua Serum 三支小容量）：官網定位 post-procedure recovery set；客人會覺得像一套完整 routine，小容量像試用裝，可能更願意嘗試。</div></div>
+      <div class="row sec"><span class="name">Serum 12</span><span class="size">30ml</span><span class="map">對應 色斑暗沉</span><span class="price"><span class="x">$15.00</span> <span class="r">US$30.00</span><small><span class="x">經銷價</span> <span class="r">SPA 價</span></small></span>
+        <div class="rnote">Serum 12 易被替代，且術後數天內不宜使用（維他命 C 會刺激剛做完療程的皮膚）。</div></div>
+      <div class="rnote">可加 Ceutisome PP Mask：皮秒／激光；BH Mask：電波；AG Mask：電波。</div>
+    </section>
+  </article>
+</div>
